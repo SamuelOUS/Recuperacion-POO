@@ -1,0 +1,92 @@
+import random
+import termcolor
+from termcolor import colored
+
+class Words:
+
+    def GetWord():
+        RightWord = str(input("Input the word:"))
+        while len(RightWord)<6:
+            print("Must have more letters")
+            RightWord = str(input("Input the word:"))
+        return RightWord
+
+
+
+    def AskGuessWord():
+        UserWord = str(input("Input a word:"))
+        return UserWord
+
+
+    def VerificateWord(UserWord,lenght):
+            while len(UserWord)<lenght:
+                print("The word must contain more letters")
+                UserWord = str(input("Input a valid word:"))
+                if len(UserWord) >=lenght:
+                    break
+            return UserWord
+
+
+
+class GameManager:
+
+
+
+    def EvaluateGuessWord():
+
+        RightWord = Words.GetWord()
+        RightWord = list(RightWord)
+
+        for i in range (6):
+            Attemps = 5
+            Attemps = Attemps - i
+            print(f"Attemps remainig {Attemps+1}")
+            Try = Words.AskGuessWord()
+            UserWord = Words.VerificateWord(Try, len(RightWord))
+            UserWord = list(UserWord)
+
+
+
+
+            if Attemps == 0:
+
+                print("No attemps remaining, you lose")
+                print(colored(f"The right word was {RightWord}", 'red'))
+                print(colored(f"The last word was {UserWord}", 'red'))
+                quit()
+
+            if list(UserWord) == list(RightWord):
+                print(termcolor.colored(UserWord,'green'))
+                print(f'The word {UserWord} is correct!')
+                print("You win!")
+                quit()
+
+            for f in range(6):
+                    if RightWord[f] == UserWord[f]:
+                        UserWord[f] = colored((UserWord[f]), 'green')
+
+
+                    elif UserWord[f] in RightWord:
+                           UserWord[f] = colored(UserWord[f], 'yellow')
+
+
+            print(*UserWord)
+
+
+
+class Menu:
+    def EndGame():
+        print("Right then, Goodbye")
+        quit()
+    def Welcome():
+        print("Welcome to the Wordle game, want to  start?")
+        Choise = str(input())
+        if Choise == "Yes" or "yes" or "YES":
+            GameManager.EvaluateGuessWord()
+
+class Worlde:
+    def Run():
+        Menu.Welcome()
+
+
+Menu.Welcome()
